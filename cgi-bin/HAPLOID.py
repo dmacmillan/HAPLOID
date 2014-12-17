@@ -14,7 +14,7 @@ import cgi, sys, math
 sys.stderr = open("../error-cgi.log", "a")
 
 form = cgi.FieldStorage()
-seqs = form.getvalue("sequencesname")
+patients = form.getvalue("sequencesname")
 runHAPLOID = form.getvalue("runHAPLOID")
 
 def printHtmlHeaders():
@@ -119,9 +119,7 @@ def parse(inputText):
     return val
 
 def parseHLA(hla, res=4):
-    rval = hla.strip()
-    rval = hla.translate(None, ":*")
-    rval = hla.upper()
+    rval = hla.strip().translate(None, "*:").upper()
     try:
         int(rval[-1])
     except (ValueError, IndexError) as e:
@@ -154,7 +152,133 @@ def calcMedian(array):
     else:
         return array[length/2]
 
+def buildUniqueHlas(patients):
+    hlas = set()
+    for patient in patients:
+        [hlas.add(x) for x in patients[patient]['A']]
+        [hlas.add(x) for x in patients[patient]['B']]
+        [hlas.add(x) for x in patients[patient]['C']]
+    return list(hlas)
+    
+def buildHLAHash(uniquehlas):
+    res = {}
+    for i,hla in enumerate(uniquehlas):
+        res[hla] = i
+    return res
+
+def analyzeHLAs(patients, uniquehlas):
+    results = {}
+    for uhla in uniquehlas:
+        results[uhla] = {}
+        for patient in patients:
+            n = len(patients)
+            for pos, aa in enumerate(patients[patient]['seq']):
+                if (len(aa) > 1):
+                    continue
+                if pos not in results[uhla]:
+                    results[uhla][pos] = {'tt': {}, 'ft': {}, 'n': n}
+                if uhla not in patients[patient][uhla[0]]:
+                    if aa not in results[uhla][pos]['ft']:
+                        results[uhla][pos]['ft'][aa] = 1
+                    else:
+                        results[uhla][pos]['ft'][aa] += 1
+                else:
+                    if aa not in results[uhla][pos]['tt']:
+                        results[uhla][pos]['tt'][aa] = 1
+                    else:
+                        results[uhla][pos]['tt'][aa] += 1
+    return results
+
+def analyzeHLAs2(patients, uniquehlas):
+    results = {}
+    for uhla in uniquehlas:
+        results[uhla] = {}
+        for patient in patients:
+            if (uhla not in patients[patient][uhla[0]]):
+                continue
+            for pos, aa in enumerate(patients[patient]['seq']):
+                if (len(aa) > 1):
+                    continue
+                if pos not in results[uhla]:
+                    results[uhla][pos] = {}
+                if aa not in results[uhla][pos]:
+                    results[uhla][pos][aa] = 1
+                else:
+                    results[uhla][pos][aa] += 1
+    return results
+    
+def displayResults(analysis):
+    #print '{}<br>'.format(analysis)
+    print '''<table id="output_table">
+            <th>HLA</th>
+            <th>CODON</th>
+            <th>AA</th>
+            <th>DIRECTION</th>
+            <th>TT</th>
+            <th>TF</th>
+            <th>FT</th>
+            <th>FF</th>
+            <th>N</th>
+            <th>ODDS RATIO</th>
+            <th>P-VALUE</th>'''
+    for uhla in analysis:
+        for pos in analysis[uhla]:
+            #print 'looking at position: {}<br>'.format(pos)
+            aas = set([x for x in analysis[uhla][pos]['tt']]+[x for x in analysis[uhla][pos]['ft']])
+            if (len(aas) == 1):
+                continue
+            for aa in aas:
+                #print '&nbsp;looking at: {}<br>'.format(aa)
+                if (aa in analysis[uhla][pos]['tt']):
+                    direction = 'adapted'
+                    tt = analysis[uhla][pos]['tt'][aa]
+                else:
+                    direction = 'non-adapted'
+                    tt = 0
+                tf = sum([analysis[uhla][pos]['tt'][x] for x in analysis[uhla][pos]['tt'] if x != aa])
+                if (aa in analysis[uhla][pos]['ft']):
+                    ft = analysis[uhla][pos]['ft'][aa]
+                else:
+                    ft = 0
+                ff = sum([analysis[uhla][pos]['ft'][x] for x in analysis[uhla][pos]['ft'] if x != aa])
+                print '<tr>'
+                print '<td>{}</td>'.format(uhla)
+                print '<td>{}</td>'.format(pos+1)
+                print '<td>{}</td>'.format(aa)
+                print '<td>{}</td>'.format(direction)
+                print '<td>{}</td>'.format(tt)
+                print '<td>{}</td>'.format(tf)
+                print '<td>{}</td>'.format(ft)
+                print '<td>{}</td>'.format(ff)
+                print '<td>{}</td>'.format(tt+tf+ft+ff)
+                try:
+                    OR = (float(tt*ff)/(tf*ft))
+                except ZeroDivisionError:
+                    OR = 'Indeterminate'
+                print '<td>{}</td>'.format(OR)
+                try:
+                    abfact = math.factorial(tt+tf)
+                    cdfact = math.factorial(ft+ff)
+                    acfact = math.factorial(tt+ft)
+                    bdfact = math.factorial(tf+ff)
+                    afact = math.factorial(tt)
+                    bfact = math.factorial(tf)
+                    cfact = math.factorial(ft)
+                    dfact = math.factorial(ff)
+                    nfact = math.factorial(tt+tf+ft+ff)
+                    logp = math.log(abfact) + math.log(cdfact) + math.log(acfact) + math.log(bdfact) - math.log((afact * bfact * cfact * dfact * nfact))
+                    pval = round(math.exp(logp),8)
+                except ZeroDivisionError:
+                    pval = "Indeterminate"
+                print '<td>{}</td>'.format(pval)
+                print '</tr>'
+    print '</table>'
+
 if (runHAPLOID is not None):
     printHtmlHeaders()
-    seqs = getSeqs(parse(seqs))
-    print seqs
+    patients = getSeqs(parse(patients))
+    #print patients
+    uniquehlas = buildUniqueHlas(patients)
+    #print uniquehlas
+    results = analyzeHLAs(patients, uniquehlas)
+    displayResults(results)
