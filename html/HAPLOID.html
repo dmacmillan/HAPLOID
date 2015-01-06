@@ -17,7 +17,9 @@
 			</div>
 			<div class="spacer"></div>
 			<div class="row usage">
-                PatientID, HLA1, HLA2, ..., nucleotide_sequence
+                Input format is one patient per line, and <b>exactly</b> 8 columns per patient. Each patient should have their <b>unique</b> 
+                patient ID in the first column. The following 6 columns should be HLA types. The final column must be the <b>nucleotide</b> 
+                sequence of the patient's HIV gene of interest.
 			</div>
 			<div class="spacer"></div>
 			<form action="../cgi-bin/HAPLOID.py" method="post" id="mainform">

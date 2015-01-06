@@ -92,3 +92,45 @@ Traceback (most recent call last):
   File "HAPLOID.py", line 257, in <module>
     displayResults(results, patients)
 TypeError: displayResults() takes exactly 1 argument (2 given)
+Traceback (most recent call last):
+  File "HAPLOID.py", line 267, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 249, in displayResults
+    print '<td>{}</td>'.format(direction)
+NameError: global name 'direction' is not defined
+Traceback (most recent call last):
+  File "HAPLOID.py", line 271, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 258, in displayResults
+    print '<td>{}</td>'.format(n)
+UnboundLocalError: local variable 'n' referenced before assignment
+Traceback (most recent call last):
+  File "HAPLOID.py", line 286, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 223, in displayResults
+    for pot in analysis[uhla][pos]['tf']:
+KeyError: 'tf'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 291, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 246, in displayResults
+    ff += mixft[aa]
+KeyError: 'Q'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 291, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 246, in displayResults
+    ff += mixft[aa]
+KeyError: 'Q'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 291, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 246, in displayResults
+    ff += mixft[aa]
+KeyError: 'Q'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 291, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 246, in displayResults
+    ff += mixft[aa]
+KeyError: 'Q'

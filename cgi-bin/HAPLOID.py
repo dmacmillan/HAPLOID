@@ -173,8 +173,8 @@ def analyzeHLAs(patients, uniquehlas):
         for patient in patients:
             n = len(patients)
             for pos, aa in enumerate(patients[patient]['seq']):
-                if (len(aa) > 1):
-                    continue
+                #if (len(aa) > 1):
+                    #continue
                 if pos not in results[uhla]:
                     results[uhla][pos] = {'tt': {}, 'ft': {}, 'n': n}
                 if uhla not in patients[patient][uhla[0]]:
@@ -188,26 +188,8 @@ def analyzeHLAs(patients, uniquehlas):
                     else:
                         results[uhla][pos]['tt'][aa] += 1
     return results
-
-def analyzeHLAs2(patients, uniquehlas):
-    results = {}
-    for uhla in uniquehlas:
-        results[uhla] = {}
-        for patient in patients:
-            if (uhla not in patients[patient][uhla[0]]):
-                continue
-            for pos, aa in enumerate(patients[patient]['seq']):
-                if (len(aa) > 1):
-                    continue
-                if pos not in results[uhla]:
-                    results[uhla][pos] = {}
-                if aa not in results[uhla][pos]:
-                    results[uhla][pos][aa] = 1
-                else:
-                    results[uhla][pos][aa] += 1
-    return results
     
-def displayResults(analysis):
+def displayResults(analysis, num):
     #print '{}<br>'.format(analysis)
     print '''<table id="output_table">
             <th>HLA</th>
@@ -223,39 +205,47 @@ def displayResults(analysis):
             <th>P-VALUE</th>'''
     for uhla in analysis:
         for pos in analysis[uhla]:
+            num_patients = num
             #print 'looking at position: {}<br>'.format(pos)
             aas = set([x for x in analysis[uhla][pos]['tt']]+[x for x in analysis[uhla][pos]['ft']])
             if (len(aas) == 1):
+                num_patients -= 1
                 continue
             for aa in aas:
+                if (aa[0] == '['):
+                    continue
                 #print '&nbsp;looking at: {}<br>'.format(aa)
+                mixft = {}
+                for pot in analysis[uhla][pos]['ft']:
+                    if pot[0] == '[':
+                        t = pot[1:-1].split('/')
+                        for i in t:
+                            mixft[i] = analysis[uhla][pos]['ft'][pot]
+                mixtt = {}
+                for pot in analysis[uhla][pos]['tt']:
+                    if pot[0] == '[':
+                        t = pot[1:-1].split('/')
+                        for i in t:
+                            mixtt[i] = analysis[uhla][pos]['tt'][pot]
                 if (aa in analysis[uhla][pos]['tt']):
-                    direction = 'adapted'
                     tt = analysis[uhla][pos]['tt'][aa]
                 else:
-                    direction = 'non-adapted'
                     tt = 0
                 tf = sum([analysis[uhla][pos]['tt'][x] for x in analysis[uhla][pos]['tt'] if x != aa])
+                if aa in mixtt:
+                    tf += mixtt[aa]
                 if (aa in analysis[uhla][pos]['ft']):
                     ft = analysis[uhla][pos]['ft'][aa]
                 else:
                     ft = 0
                 ff = sum([analysis[uhla][pos]['ft'][x] for x in analysis[uhla][pos]['ft'] if x != aa])
-                print '<tr>'
-                print '<td>{}</td>'.format(uhla)
-                print '<td>{}</td>'.format(pos+1)
-                print '<td>{}</td>'.format(aa)
-                print '<td>{}</td>'.format(direction)
-                print '<td>{}</td>'.format(tt)
-                print '<td>{}</td>'.format(tf)
-                print '<td>{}</td>'.format(ft)
-                print '<td>{}</td>'.format(ff)
-                print '<td>{}</td>'.format(tt+tf+ft+ff)
+                if aa in mixft:
+                    ff -= mixft[aa]
+                    num_patients -= 1
                 try:
                     OR = (float(tt*ff)/(tf*ft))
                 except ZeroDivisionError:
                     OR = 'Indeterminate'
-                print '<td>{}</td>'.format(OR)
                 try:
                     abfact = math.factorial(tt+tf)
                     cdfact = math.factorial(ft+ff)
@@ -270,6 +260,23 @@ def displayResults(analysis):
                     pval = round(math.exp(logp),8)
                 except ZeroDivisionError:
                     pval = "Indeterminate"
+                if (OR < 1):
+                    direction = 'non-adapted'
+                elif (OR == 'indeterminate') or (OR > 1):
+                    direction = 'adapted'
+                else:
+                    direction = 'n/a'
+                print '<tr>'
+                print '<td>{}</td>'.format(uhla)
+                print '<td>{}</td>'.format(pos+1)
+                print '<td>{}</td>'.format(aa)
+                print '<td>{}</td>'.format(direction)
+                print '<td>{}</td>'.format(tt)
+                print '<td>{}</td>'.format(tf)
+                print '<td>{}</td>'.format(ft)
+                print '<td>{}</td>'.format(ff)
+                print '<td>{}</td>'.format(num_patients)
+                print '<td>{}</td>'.format(OR)
                 print '<td>{}</td>'.format(pval)
                 print '</tr>'
     print '</table>'
@@ -281,4 +288,4 @@ if (runHAPLOID is not None):
     uniquehlas = buildUniqueHlas(patients)
     #print uniquehlas
     results = analyzeHLAs(patients, uniquehlas)
-    displayResults(results)
+    displayResults(results,len(patients))
