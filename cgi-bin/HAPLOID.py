@@ -214,6 +214,8 @@ def displayResults(analysis, num):
             for aa in aas:
                 if (aa[0] == '['):
                     continue
+                #if (uhla == 'A0201') and (pos == 1) and (aa == 'K'):
+                #    print analysis[uhla][pos]
                 #print '&nbsp;looking at: {}<br>'.format(aa)
                 mixft = {}
                 for pot in analysis[uhla][pos]['ft']:
@@ -233,7 +235,8 @@ def displayResults(analysis, num):
                     tt = 0
                 tf = sum([analysis[uhla][pos]['tt'][x] for x in analysis[uhla][pos]['tt'] if x != aa])
                 if aa in mixtt:
-                    tf += mixtt[aa]
+                    tf -= mixtt[aa]
+                    num_patients -= 1
                 if (aa in analysis[uhla][pos]['ft']):
                     ft = analysis[uhla][pos]['ft'][aa]
                 else:
