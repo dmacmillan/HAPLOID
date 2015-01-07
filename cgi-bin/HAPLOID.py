@@ -145,13 +145,6 @@ def getSeqs(seqs):
                 d[pid]['C'].append(hla)
     return d
 
-def calcMedian(array):
-    length = len(array)
-    if (length % 2 == 0):
-        return ((array[length/2]) + (array[(length/2)-1]))/2
-    else:
-        return array[length/2]
-
 def buildUniqueHlas(patients):
     hlas = set()
     for patient in patients:
@@ -159,12 +152,6 @@ def buildUniqueHlas(patients):
         [hlas.add(x) for x in patients[patient]['B']]
         [hlas.add(x) for x in patients[patient]['C']]
     return list(hlas)
-    
-def buildHLAHash(uniquehlas):
-    res = {}
-    for i,hla in enumerate(uniquehlas):
-        res[hla] = i
-    return res
 
 def analyzeHLAs(patients, uniquehlas):
     results = {}
