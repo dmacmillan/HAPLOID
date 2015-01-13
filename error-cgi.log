@@ -134,3 +134,25 @@ Traceback (most recent call last):
   File "HAPLOID.py", line 246, in displayResults
     ff += mixft[aa]
 KeyError: 'Q'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 286, in <module>
+    analyze(patients, uniquehla)
+NameError: name 'uniquehla' is not defined
+Traceback (most recent call last):
+  File "HAPLOID.py", line 286, in <module>
+    analyze(patients, uniquehlas)
+  File "HAPLOID.py", line 158, in analyze
+    for pos in next(patients.itervalues())['sequence']:
+KeyError: 'sequence'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 281, in <module>
+    analyze(patients, uniquehlas)
+NameError: name 'analyze' is not defined
+Traceback (most recent call last):
+  File "HAPLOID.py", line 276, in <module>
+    patients = getSeqs(parse(patients))
+  File "HAPLOID.py", line 134, in getSeqs
+    aaseq = translateDNA(nuseq)
+  File "HAPLOID.py", line 108, in translateDNA
+    unique = set([codon_dict[potential] for potential in codon])
+KeyError: 'CEQ'

@@ -152,7 +152,7 @@ def buildUniqueHlas(patients):
         [hlas.add(x) for x in patients[patient]['B']]
         [hlas.add(x) for x in patients[patient]['C']]
     return list(hlas)
-
+        
 def analyzeHLAs(patients, uniquehlas):
     results = {}
     for uhla in uniquehlas:
