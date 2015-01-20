@@ -245,7 +245,7 @@ def displayResults(analysis, num):
                     bfact = math.factorial(tf)
                     cfact = math.factorial(ft)
                     dfact = math.factorial(ff)
-                    nfact = math.factorial(tt+tf+ft+ff)
+                    nfact = math.factorial(num_patients)
                     logp = math.log(abfact) + math.log(cdfact) + math.log(acfact) + math.log(bdfact) - math.log((afact * bfact * cfact * dfact * nfact))
                     pval = round(math.exp(logp),8)
                 except ZeroDivisionError:
