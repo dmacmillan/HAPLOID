@@ -23,6 +23,7 @@ def printHtmlHeaders():
     print """<!DOCTYPE html><html><head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="../cgi-bin/script.js"></script>
+    <script type="text/javascript" src="../../MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="stylesheet" href="../css/style.css"></head><body>"""
 
 def printFileHeaders(filename):
@@ -176,7 +177,7 @@ def analyzeHLAs(patients, uniquehlas):
                         results[uhla][pos]['tt'][aa] += 1
     return results
     
-def displayResults(analysis, num):
+def displayResults(analysis):
     #print '{}<br>'.format(analysis)
     print '''<table id="output_table">
             <th>HLA</th>
@@ -189,14 +190,13 @@ def displayResults(analysis, num):
             <th>FF</th>
             <th>N</th>
             <th>ODDS RATIO</th>
-            <th>P-VALUE</th>'''
+            <th>P-VALUE</th>
+            <th>EQUATION</th>'''
     for uhla in analysis:
         for pos in analysis[uhla]:
-            num_patients = num
             #print 'looking at position: {}<br>'.format(pos)
             aas = set([x for x in analysis[uhla][pos]['tt']]+[x for x in analysis[uhla][pos]['ft']])
             if (len(aas) == 1):
-                num_patients -= 1
                 continue
             for aa in aas:
                 if (aa[0] == '['):
@@ -223,7 +223,6 @@ def displayResults(analysis, num):
                 tf = sum([analysis[uhla][pos]['tt'][x] for x in analysis[uhla][pos]['tt'] if x != aa])
                 if aa in mixtt:
                     tf -= mixtt[aa]
-                    num_patients -= 1
                 if (aa in analysis[uhla][pos]['ft']):
                     ft = analysis[uhla][pos]['ft'][aa]
                 else:
@@ -231,11 +230,11 @@ def displayResults(analysis, num):
                 ff = sum([analysis[uhla][pos]['ft'][x] for x in analysis[uhla][pos]['ft'] if x != aa])
                 if aa in mixft:
                     ff -= mixft[aa]
-                    num_patients -= 1
                 try:
                     OR = (float(tt*ff)/(tf*ft))
                 except ZeroDivisionError:
                     OR = 'Indeterminate'
+                n = tt+tf+ft+ff
                 try:
                     abfact = math.factorial(tt+tf)
                     cdfact = math.factorial(ft+ff)
@@ -245,7 +244,7 @@ def displayResults(analysis, num):
                     bfact = math.factorial(tf)
                     cfact = math.factorial(ft)
                     dfact = math.factorial(ff)
-                    nfact = math.factorial(num_patients)
+                    nfact = math.factorial(n)
                     logp = math.log(abfact) + math.log(cdfact) + math.log(acfact) + math.log(bdfact) - math.log((afact * bfact * cfact * dfact * nfact))
                     pval = round(math.exp(logp),8)
                 except ZeroDivisionError:
@@ -265,9 +264,10 @@ def displayResults(analysis, num):
                 print '<td>{}</td>'.format(tf)
                 print '<td>{}</td>'.format(ft)
                 print '<td>{}</td>'.format(ff)
-                print '<td>{}</td>'.format(num_patients)
+                print '<td>{}</td>'.format(n)
                 print '<td>{}</td>'.format(OR)
                 print '<td>{}</td>'.format(pval)
+                print '<td>\[\\frac{{({}+{})!({}+{})!({}+{})!({}+{})!}}{{{}!{}!{}!{}!{}!}}\]</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,n)
                 print '</tr>'
     print '</table>'
 
@@ -278,4 +278,4 @@ if (runHAPLOID is not None):
     uniquehlas = buildUniqueHlas(patients)
     #print uniquehlas
     results = analyzeHLAs(patients, uniquehlas)
-    displayResults(results,len(patients))
+    displayResults(results)

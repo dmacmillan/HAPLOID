@@ -156,3 +156,49 @@ Traceback (most recent call last):
   File "HAPLOID.py", line 108, in translateDNA
     unique = set([codon_dict[potential] for potential in codon])
 KeyError: 'CEQ'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 283, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 272, in displayResults
+    print '<td>({}+{})!({}+{})!({}+{})!({}+{})!/{}!{}!{}!{}!{}!</td>'.format(abfact,cdfact,acfact,bdfact,afact,bfact,cfact,dfact,nfact)
+IndexError: tuple index out of range
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>\frac{({}+{})!({}+{})!({}+{})!({}+{})!}/{{}!{}!{}!{}!{}!}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+ValueError: expected ':' after format specifier
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+ValueError: expected ':' after format specifier
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+ValueError: expected ':' after format specifier
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>$$\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}$$</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+ValueError: expected ':' after format specifier
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>$$\frac{50}{100}$$</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+IndexError: tuple index out of range
+Traceback (most recent call last):
+  File "HAPLOID.py", line 284, in <module>
+    displayResults(results,len(patients))
+  File "HAPLOID.py", line 273, in displayResults
+    print '<td>\[\\frac{{({}+{})!({}+{})!({}+{})!({}+{})!}}{{}!{}!{}!{}!{}!}\]</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
+ValueError: Single '}' encountered in format string
+Traceback (most recent call last):
+  File "HAPLOID.py", line 281, in <module>
+    displayResults(results)
+TypeError: displayResults() takes exactly 2 arguments (1 given)
