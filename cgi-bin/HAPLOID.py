@@ -1,4 +1,4 @@
-#!/home4/dmacmill/python/Python-2.7.2/python
+#!/home4/dmacmill/anaconda/bin/python
 #/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 
 ##############################################################
@@ -10,12 +10,18 @@
 ##############################################################
 
 import cgi, sys, math
+from scipy import stats
+from statsmodels.sandbox.stats.multicomp import *
 
 sys.stderr = open("../error-cgi.log", "a")
 
 form = cgi.FieldStorage()
 patients = form.getvalue("sequencesname")
 runHAPLOID = form.getvalue("runHAPLOID")
+hlacountfilter = int(form.getvalue("hlacountfilter"))
+aacountfilter = int(form.getvalue("aacountfilter"))
+maxp = float(form.getvalue("maxp"))
+maxq = float(form.getvalue("maxq"))
 
 def printHtmlHeaders():
     print "Content-Type: text/html"
@@ -154,15 +160,31 @@ def buildUniqueHlas(patients):
         [hlas.add(x) for x in patients[patient]['C']]
     return list(hlas)
         
-def analyzeHLAs(patients, uniquehlas):
+def analyzeHLAs(patients, uniquehlas, hlacountfilter=None, aacountfilter=1):
     results = {}
+    seqcounts = {}
+    for patient in patients:
+        for pos,aa in enumerate(patients[patient]['seq']):
+            if pos not in seqcounts:
+                seqcounts[pos] = {}
+            if aa in seqcounts[pos]:
+                seqcounts[pos][aa] += 1
+            else:
+                seqcounts[pos][aa] = 1
     for uhla in uniquehlas:
+        hlacount = 0
         results[uhla] = {}
         for patient in patients:
             n = len(patients)
+            if uhla in patients[patient][uhla[0]]:
+                hlacount += 1
             for pos, aa in enumerate(patients[patient]['seq']):
+                if (seqcounts[pos][aa] < aacountfilter):
+                    continue
                 #if (len(aa) > 1):
                     #continue
+                if (aa in ['X','-']):
+                    continue
                 if pos not in results[uhla]:
                     results[uhla][pos] = {'tt': {}, 'ft': {}, 'n': n}
                 if uhla not in patients[patient][uhla[0]]:
@@ -175,35 +197,21 @@ def analyzeHLAs(patients, uniquehlas):
                         results[uhla][pos]['tt'][aa] = 1
                     else:
                         results[uhla][pos]['tt'][aa] += 1
+        if (hlacountfilter) and (hlacount < hlacountfilter):
+            #print 'There are only {} patient/s with hla {} which is < {}, removing.<br>'.format(hlacount,uhla,countfilter)
+            results.pop(uhla, None)
     return results
     
-def displayResults(analysis):
-    #print '{}<br>'.format(analysis)
-    print '''<table id="output_table">
-            <th>HLA</th>
-            <th>CODON</th>
-            <th>AA</th>
-            <th>DIRECTION</th>
-            <th>TT</th>
-            <th>TF</th>
-            <th>FT</th>
-            <th>FF</th>
-            <th>N</th>
-            <th>ODDS RATIO</th>
-            <th>P-VALUE</th>
-            <th>EQUATION</th>'''
+def getResults(analysis):
+    results = []
     for uhla in analysis:
         for pos in analysis[uhla]:
-            #print 'looking at position: {}<br>'.format(pos)
             aas = set([x for x in analysis[uhla][pos]['tt']]+[x for x in analysis[uhla][pos]['ft']])
             if (len(aas) == 1):
                 continue
             for aa in aas:
                 if (aa[0] == '['):
                     continue
-                #if (uhla == 'A0201') and (pos == 1) and (aa == 'K'):
-                #    print analysis[uhla][pos]
-                #print '&nbsp;looking at: {}<br>'.format(aa)
                 mixft = {}
                 for pot in analysis[uhla][pos]['ft']:
                     if pot[0] == '[':
@@ -230,45 +238,41 @@ def displayResults(analysis):
                 ff = sum([analysis[uhla][pos]['ft'][x] for x in analysis[uhla][pos]['ft'] if x != aa])
                 if aa in mixft:
                     ff -= mixft[aa]
-                try:
-                    OR = (float(tt*ff)/(tf*ft))
-                except ZeroDivisionError:
-                    OR = 'Indeterminate'
                 n = tt+tf+ft+ff
-                try:
-                    abfact = math.factorial(tt+tf)
-                    cdfact = math.factorial(ft+ff)
-                    acfact = math.factorial(tt+ft)
-                    bdfact = math.factorial(tf+ff)
-                    afact = math.factorial(tt)
-                    bfact = math.factorial(tf)
-                    cfact = math.factorial(ft)
-                    dfact = math.factorial(ff)
-                    nfact = math.factorial(n)
-                    logp = math.log(abfact) + math.log(cdfact) + math.log(acfact) + math.log(bdfact) - math.log((afact * bfact * cfact * dfact * nfact))
-                    pval = round(math.exp(logp),8)
-                except ZeroDivisionError:
-                    pval = "Indeterminate"
+                OR, pval = stats.fisher_exact([[tt,tf],[ft,ff]])
+
                 if (OR < 1):
                     direction = 'non-adapted'
                 elif (OR == 'indeterminate') or (OR > 1):
                     direction = 'adapted'
                 else:
                     direction = 'n/a'
-                print '<tr>'
-                print '<td>{}</td>'.format(uhla)
-                print '<td>{}</td>'.format(pos+1)
-                print '<td>{}</td>'.format(aa)
-                print '<td>{}</td>'.format(direction)
-                print '<td>{}</td>'.format(tt)
-                print '<td>{}</td>'.format(tf)
-                print '<td>{}</td>'.format(ft)
-                print '<td>{}</td>'.format(ff)
-                print '<td>{}</td>'.format(n)
-                print '<td>{}</td>'.format(OR)
-                print '<td>{}</td>'.format(pval)
-                print '<td>\[\\frac{{({}+{})!({}+{})!({}+{})!({}+{})!}}{{{}!{}!{}!{}!{}!}}\]</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,n)
-                print '</tr>'
+                results.append([uhla,str(pos+1),aa,direction,str(tt),str(tf),str(ft),str(ff),str(n),str(OR),str(pval)])
+    return results
+    
+def displayResults(results, maxq, maxp):
+    print '''<table id="output_table">
+            <th>HLA</th>
+            <th>CODON</th>
+            <th>AA</th>
+            <th>DIRECTION</th>
+            <th>TT</th>
+            <th>TF</th>
+            <th>FT</th>
+            <th>FF</th>
+            <th>N</th>
+            <th>ODDS RATIO</th>
+            <th>P-VALUE</th>
+            <th>Q-VALUE</th>'''
+    pvalues = [float(x[-1]) for x in results]
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+    #print qvalues
+    for i in xrange(len(qvalues[1])):
+        results[i].append(str(qvalues[1][i]))
+    for result in results:
+        #Do no include result if q-value is above threshold
+        if (float(result[-1]) <= maxq) and (float(result[-2]) <= maxp):
+            print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
     print '</table>'
 
 if (runHAPLOID is not None):
@@ -277,5 +281,6 @@ if (runHAPLOID is not None):
     #print patients
     uniquehlas = buildUniqueHlas(patients)
     #print uniquehlas
-    results = analyzeHLAs(patients, uniquehlas)
-    displayResults(results)
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter, aacountfilter)
+    results = getResults(results)
+    displayResults(results,maxq,maxp)

@@ -27,6 +27,12 @@ h1 {
 	font-size: 25px;
 }
 
+h2 {
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 div, p {
 	padding: 0;
 	margin: 0;
@@ -90,7 +96,7 @@ span {
 	td {
 		border: 1px solid black;
         &:not(:last-child) {
-            width: 50px;
+            width: 100px;
         }
 	}
 }
@@ -115,7 +121,7 @@ textarea {
 	@include transition(all ease-out 0.1s);
 	&:focus {
 		outline: none;
-		background-color: lighten($blue,30%);
+		background-color: lighten($blue, 30%);
 	@include transition(all ease-out 0.1s);
 	}
 	&:hover + .clearbutton {
@@ -147,4 +153,35 @@ textarea {
 	top: 0;
 	right: 40px;
 	background: lighten($red,20%);
+}
+
+input.large {
+    padding: 9px; 
+    border: solid 1px #E5E5E5; 
+    outline: 0; 
+    width: 100%;
+    margin: 5px 0;
+    /*
+    font: normal 13px/100% Verdana, Tahoma, sans-serif; 
+    background: #FFFFFF url('bg_form.png') left top repeat-x; 
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF)); 
+    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px); 
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    */
+    &:focus {
+        background-color: #ffffaa;
+    }
+}
+
+.option {
+    padding: 5px 10px;
+    border-left: 2px solid $purple;
+    h2 {
+        margin-top: -5px;
+        margin-left: -10px;
+        margin-right: -10px;
+        background-color: $purple;
+        padding: 5px;
+    }
 }

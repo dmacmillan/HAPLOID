@@ -265,6 +265,11 @@
 h1 {
   font-size: 25px; }
 
+h2 {
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 5px; }
+
 div, p {
   padding: 0;
   margin: 0;
@@ -360,7 +365,7 @@ span.bold {
   #output_table td {
     border: 1px solid black; }
     #output_table td:not(:last-child) {
-      width: 50px; }
+      width: 100px; }
 
 .container {
   max-width: 1170px;
@@ -415,3 +420,30 @@ textarea {
     cursor: pointer; }
   .clearbutton:active {
     background: #cc0000; }
+
+input.large {
+  padding: 9px;
+  border: solid 1px #E5E5E5;
+  outline: 0;
+  width: 100%;
+  margin: 5px 0;
+  /*
+  font: normal 13px/100% Verdana, Tahoma, sans-serif; 
+  background: #FFFFFF url('bg_form.png') left top repeat-x; 
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF)); 
+  background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px); 
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+  */ }
+  input.large:focus {
+    background-color: #ffffaa; }
+
+.option {
+  padding: 5px 10px;
+  border-left: 2px solid #aa66cc; }
+  .option h2 {
+    margin-top: -5px;
+    margin-left: -10px;
+    margin-right: -10px;
+    background-color: #aa66cc;
+    padding: 5px; }

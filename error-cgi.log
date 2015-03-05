@@ -1,204 +1,188 @@
 Traceback (most recent call last):
-  File "HAPLOID.py", line 226, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 200, in displayResults
-    for type in analysis[uhla][pos][:-1]:
-TypeError: unhashable type
+  File "HAPLOID.py", line 317, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 303, in displayResults
+    qvalues = multipletests(pvalues, is_sorted=True, returnsorted=True)
+TypeError: multipletests() got an unexpected keyword argument 'is_sorted'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 252, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 224, in displayResults
-    for aa in analysis[uhla][pos][truth]:
-TypeError: 'int' object is not iterable
+  File "HAPLOID.py", line 318, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 305, in displayResults
+    result.append(str(qval))
+UnboundLocalError: local variable 'result' referenced before assignment
 Traceback (most recent call last):
-  File "HAPLOID.py", line 248, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 227, in displayResults
-    print '<td>{}</td>'.format()
-IndexError: tuple index out of range
+  File "HAPLOID.py", line 319, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 306, in displayResults
+    result.append(str(qval))
+UnboundLocalError: local variable 'result' referenced before assignment
 Traceback (most recent call last):
-  File "HAPLOID.py", line 253, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 225, in displayResults
-    for aa in analysis[uhla][pos][truth]:
-TypeError: 'int' object is not iterable
+  File "HAPLOID.py", line 319, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 305, in displayResults
+    for qval in qvalues[1][0]:
+TypeError: 'numpy.float64' object is not iterable
 Traceback (most recent call last):
-  File "HAPLOID.py", line 252, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 229, in displayResults
-    tt = analysis[uhla][pos][truth][aa]
-TypeError: 'int' object is not subscriptable
+  File "HAPLOID.py", line 319, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 305, in displayResults
+    for qval in qvalues[1][0]:
+TypeError: 'numpy.float64' object is not iterable
 Traceback (most recent call last):
-  File "HAPLOID.py", line 252, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 229, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-TypeError: unhashable type: 'dict'
+  File "HAPLOID.py", line 320, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 307, in displayResults
+    result.append(str(qval))
+UnboundLocalError: local variable 'result' referenced before assignment
 Traceback (most recent call last):
-  File "HAPLOID.py", line 253, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 230, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-TypeError: unhashable type: 'dict'
+  File "HAPLOID.py", line 318, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 307, in displayResults
+    print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
+TypeError: sequence item 11: expected string, numpy.ndarray found
 Traceback (most recent call last):
-  File "HAPLOID.py", line 253, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 230, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-TypeError: unhashable type: 'dict'
+  File "HAPLOID.py", line 317, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 303, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
 Traceback (most recent call last):
-  File "HAPLOID.py", line 253, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 230, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-KeyError: 'Q'
+  File "HAPLOID.py", line 319, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 308, in displayResults
+    print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
+TypeError: sequence item 11: expected string, numpy.ndarray found
 Traceback (most recent call last):
-  File "HAPLOID.py", line 254, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 225, in displayResults
-    for aa in [set(seqmatrix[x][pos]) for x in seqmatrix]:
-TypeError: list indices must be integers, not list
+  File "HAPLOID.py", line 21, in <module>
+    hlacountfilter = int(form.getvalue("hlacountfilter"))
+TypeError: int() argument must be a string or a number, not 'NoneType'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 255, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 226, in displayResults
-    for aa in set([seqmatrix[x][pos] for x in seqmatrix]):
-TypeError: list indices must be integers, not list
+  File "HAPLOID.py", line 273, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 191, in analyzeHLAs
+    print results[uhla][pos]['tt'] + results[uhla][pos]['ft']
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 255, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 232, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-KeyError: 'Q'
+  File "HAPLOID.py", line 21, in <module>
+    hlacountfilter = int(form.getvalue("hlacountfilter"))
+TypeError: int() argument must be a string or a number, not 'NoneType'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 256, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 224, in displayResults
-    for aa in [x for x in analysis[uhla][pos][x]]:
-UnboundLocalError: local variable 'x' referenced before assignment
+  File "HAPLOID.py", line 273, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 191, in analyzeHLAs
+    print results[uhla][pos]['tt'] + results[uhla][pos]['ft']
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 256, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 229, in displayResults
-    tt = analysis[uhla][pos]['tt'][aa]
-KeyError: 'Q'
+  File "HAPLOID.py", line 274, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 191, in analyzeHLAs
+    for aa in results[uhla][pos]['tt'] + results[uhla][pos]['ft']:
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 255, in <module>
-    displayResults(results, patients)
-  File "HAPLOID.py", line 240, in displayResults
-    print '<td>{}</td>'.format(tt)
-UnboundLocalError: local variable 'tt' referenced before assignment
+  File "HAPLOID.py", line 274, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 191, in analyzeHLAs
+    for aa in results[uhla][pos]['tt'] + results[uhla][pos]['ft']:
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 Traceback (most recent call last):
-  File "HAPLOID.py", line 257, in <module>
-    displayResults(results, patients)
-TypeError: displayResults() takes exactly 1 argument (2 given)
-Traceback (most recent call last):
-  File "HAPLOID.py", line 267, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 249, in displayResults
-    print '<td>{}</td>'.format(direction)
-NameError: global name 'direction' is not defined
-Traceback (most recent call last):
-  File "HAPLOID.py", line 271, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 258, in displayResults
-    print '<td>{}</td>'.format(n)
-UnboundLocalError: local variable 'n' referenced before assignment
-Traceback (most recent call last):
-  File "HAPLOID.py", line 286, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 223, in displayResults
-    for pot in analysis[uhla][pos]['tf']:
-KeyError: 'tf'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 291, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 246, in displayResults
-    ff += mixft[aa]
-KeyError: 'Q'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 291, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 246, in displayResults
-    ff += mixft[aa]
-KeyError: 'Q'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 291, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 246, in displayResults
-    ff += mixft[aa]
-KeyError: 'Q'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 291, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 246, in displayResults
-    ff += mixft[aa]
-KeyError: 'Q'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 286, in <module>
-    analyze(patients, uniquehla)
-NameError: name 'uniquehla' is not defined
-Traceback (most recent call last):
-  File "HAPLOID.py", line 286, in <module>
-    analyze(patients, uniquehlas)
-  File "HAPLOID.py", line 158, in analyze
-    for pos in next(patients.itervalues())['sequence']:
-KeyError: 'sequence'
-Traceback (most recent call last):
-  File "HAPLOID.py", line 281, in <module>
-    analyze(patients, uniquehlas)
-NameError: name 'analyze' is not defined
-Traceback (most recent call last):
-  File "HAPLOID.py", line 276, in <module>
-    patients = getSeqs(parse(patients))
-  File "HAPLOID.py", line 134, in getSeqs
-    aaseq = translateDNA(nuseq)
-  File "HAPLOID.py", line 108, in translateDNA
-    unique = set([codon_dict[potential] for potential in codon])
-KeyError: 'CEQ'
+  File "HAPLOID.py", line 274, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 191, in analyzeHLAs
+    for aa in results[uhla][pos]['tt'] + results[uhla][pos]['ft']:
+TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
 Traceback (most recent call last):
   File "HAPLOID.py", line 283, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 272, in displayResults
-    print '<td>({}+{})!({}+{})!({}+{})!({}+{})!/{}!{}!{}!{}!{}!</td>'.format(abfact,cdfact,acfact,bdfact,afact,bfact,cfact,dfact,nfact)
-IndexError: tuple index out of range
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 164, in analyzeHLAs
+    for pos in xrange(patients[patient]['seq']):
+TypeError: an integer is required
 Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>\frac{({}+{})!({}+{})!({}+{})!({}+{})!}/{{}!{}!{}!{}!{}!}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-ValueError: expected ':' after format specifier
+  File "HAPLOID.py", line 283, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 168, in analyzeHLAs
+    if aa in seqcounts[pos]:
+TypeError: argument of type 'int' is not iterable
 Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-ValueError: expected ':' after format specifier
+  File "HAPLOID.py", line 282, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 167, in analyzeHLAs
+    if aa in seqcounts[pos]:
+TypeError: argument of type 'int' is not iterable
 Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-ValueError: expected ':' after format specifier
+  File "HAPLOID.py", line 283, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 168, in analyzeHLAs
+    if aa in seqcounts[pos]:
+TypeError: argument of type 'int' is not iterable
 Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>$$\frac\{({}+{})!({}+{})!({}+{})!({}+{})!\}/\{{}!{}!{}!{}!{}!\}$$</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-ValueError: expected ':' after format specifier
-Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>$$\frac{50}{100}$$</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-IndexError: tuple index out of range
-Traceback (most recent call last):
-  File "HAPLOID.py", line 284, in <module>
-    displayResults(results,len(patients))
-  File "HAPLOID.py", line 273, in displayResults
-    print '<td>\[\\frac{{({}+{})!({}+{})!({}+{})!({}+{})!}}{{}!{}!{}!{}!{}!}\]</td>'.format(tt,tf,ft,ff,tt,ft,tf,ff,tt,tf,ft,ff,num_patients)
-ValueError: Single '}' encountered in format string
+  File "HAPLOID.py", line 282, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter)
+  File "HAPLOID.py", line 181, in analyzeHLAs
+    if [x for x in patients[patient]['seq'][pos]].count(aa) < minAA:
+NameError: global name 'minAA' is not defined
 Traceback (most recent call last):
   File "HAPLOID.py", line 281, in <module>
+    results = analyzeHLAs(patients, uniquehlas, hlacountfilter, aacountfilter)
+  File "HAPLOID.py", line 180, in analyzeHLAs
+    if seqcount[pos][aa] < aacountfilter:
+NameError: global name 'seqcount' is not defined
+Traceback (most recent call last):
+  File "HAPLOID.py", line 283, in <module>
     displayResults(results)
-TypeError: displayResults() takes exactly 2 arguments (1 given)
+  File "HAPLOID.py", line 267, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
+Traceback (most recent call last):
+  File "HAPLOID.py", line 282, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 266, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
+Traceback (most recent call last):
+  File "HAPLOID.py", line 282, in <module>
+    displayResults(results)
+  File "HAPLOID.py", line 266, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
+Traceback (most recent call last):
+  File "HAPLOID.py", line 23, in <module>
+    maxp = int(form.getvalue("maxp"))
+ValueError: invalid literal for int() with base 10: '0.05'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 23, in <module>
+    maxp = int(form.getvalue("maxp"))
+ValueError: invalid literal for int() with base 10: '0.05'
+Traceback (most recent call last):
+  File "HAPLOID.py", line 290, in <module>
+    displayResults(results,maxq)
+  File "HAPLOID.py", line 272, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
+Traceback (most recent call last):
+  File "HAPLOID.py", line 293, in <module>
+    displayResults(results,maxq)
+  File "HAPLOID.py", line 277, in displayResults
+    for i in xrange(len(qvalues[1])):
+UnboundLocalError: local variable 'qvalues' referenced before assignment
+Traceback (most recent call last):
+  File "HAPLOID.py", line 293, in <module>
+    displayResults(results,maxq)
+  File "HAPLOID.py", line 277, in displayResults
+    for i in xrange(len(qvalues[1])):
+UnboundLocalError: local variable 'qvalues' referenced before assignment
+Traceback (most recent call last):
+  File "HAPLOID.py", line 285, in <module>
+    displayResults(results,maxq,maxp)
+  File "HAPLOID.py", line 269, in displayResults
+    for i in xrange(len(qvalues[1])):
+NameError: global name 'qvalues' is not defined
