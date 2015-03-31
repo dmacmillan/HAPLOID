@@ -272,18 +272,18 @@ def displayResults(results, maxq, maxp):
             <th>ODDS RATIO</th>
             <th>P-VALUE</th>
             <th>Q-VALUE</th>'''
-    pvalues = [float(x[-1]) for x in results if float(x[-1]) < maxp]
+    pvalues = [float(x[-1]) for x in results]# if float(x[-1]) < maxp]
     qvalues = multipletests(pvalues, alpha=0.05, method='sidak')
     #print qvalues
     for i in xrange(len(qvalues[1])):
         results[i].append(str(qvalues[1][i]))
     for result in results:
         #Do no include result if q-value is above threshold
-        if (maxp and maxq) and (float(result[-1]) > maxq) and (float(result[-2]) > maxp):
+        if (float(result[-1]) > maxq) and (float(result[-2]) > maxp):
             continue
-        elif maxp and (float(result[-2]) > maxp):
+        elif (float(result[-2]) > maxp):
             continue
-        elif maxq and (float(result[-1]) > maxq):
+        elif (float(result[-1]) > maxq):
             continue
         else:
             print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
