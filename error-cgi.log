@@ -186,3 +186,11 @@ Traceback (most recent call last):
   File "HAPLOID.py", line 269, in displayResults
     for i in xrange(len(qvalues[1])):
 NameError: global name 'qvalues' is not defined
+Traceback (most recent call last):
+  File "HAPLOID.py", line 23, in <module>
+    maxp = float(form.getvalue("maxp"))
+TypeError: float() argument must be a string or a number
+Traceback (most recent call last):
+  File "HAPLOID.py", line 23, in <module>
+    maxp = float(form.getvalue("maxp"))
+TypeError: float() argument must be a string or a number

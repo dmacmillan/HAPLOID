@@ -20,8 +20,16 @@ patients = form.getvalue("sequencesname")
 runHAPLOID = form.getvalue("runHAPLOID")
 hlacountfilter = int(form.getvalue("hlacountfilter"))
 aacountfilter = int(form.getvalue("aacountfilter"))
-maxp = float(form.getvalue("maxp"))
-maxq = float(form.getvalue("maxq"))
+maxp = form.getvalue("maxp")
+if maxp:
+    maxp = float(maxp)
+else:
+    maxp = 0.5
+maxq = form.getvalue("maxq")
+if maxq:
+    maxq = float(maxq)
+else:
+    maxq = 0.8
 
 def printHtmlHeaders():
     print "Content-Type: text/html"
@@ -264,14 +272,20 @@ def displayResults(results, maxq, maxp):
             <th>ODDS RATIO</th>
             <th>P-VALUE</th>
             <th>Q-VALUE</th>'''
-    pvalues = [float(x[-1]) for x in results]
-    qvalues = multipletests(pvalues, alpha=0.05, method='holm-sidak')
+    pvalues = [float(x[-1]) for x in results if float(x[-1]) < maxp]
+    qvalues = multipletests(pvalues, alpha=0.05, method='sidak')
     #print qvalues
     for i in xrange(len(qvalues[1])):
         results[i].append(str(qvalues[1][i]))
     for result in results:
         #Do no include result if q-value is above threshold
-        if (float(result[-1]) <= maxq) and (float(result[-2]) <= maxp):
+        if (maxp and maxq) and (float(result[-1]) > maxq) and (float(result[-2]) > maxp):
+            continue
+        elif maxp and (float(result[-2]) > maxp):
+            continue
+        elif maxq and (float(result[-1]) > maxq):
+            continue
+        else:
             print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
     print '</table>'
 
