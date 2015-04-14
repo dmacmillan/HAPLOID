@@ -1,9 +1,7 @@
-#!/home4/dmacmill/anaconda/bin/python
-#/Library/Frameworks/Python.framework/Versions/2.7/bin/python
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 
 ##############################################################
 # HAPLOID - Hla Associated PoLymOrphism IDentifier           #
-# HAmMOnD - Hla Associated polyMOrphism Discovery            #
 #------------------------------------------------------------#
 # Author: Daniel MacMillan                                   #
 # Contact: drm5@sfu.ca                                       #
@@ -12,8 +10,6 @@
 import cgi, sys, math
 from scipy import stats
 from statsmodels.sandbox.stats.multicomp import *
-
-sys.stderr = open("../error-cgi.log", "a")
 
 form = cgi.FieldStorage()
 patients = form.getvalue("sequencesname")
