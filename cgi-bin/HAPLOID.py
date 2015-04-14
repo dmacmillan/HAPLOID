@@ -18,18 +18,26 @@ sys.stderr = open("../error-cgi.log", "a")
 form = cgi.FieldStorage()
 patients = form.getvalue("sequencesname")
 runHAPLOID = form.getvalue("runHAPLOID")
-hlacountfilter = int(form.getvalue("hlacountfilter"))
-aacountfilter = int(form.getvalue("aacountfilter"))
+hlacountfilter = form.getvalue("hlacountfilter")
+aacountfilter = form.getvalue("aacountfilter")
 maxp = form.getvalue("maxp")
+if hlacountfilter:
+    hlacountfilter = int(hlacountfilter)
+else:
+    hlacountfilter = 1
+if aacountfilter:
+    aacountfilter = int(aacountfilter)
+else:
+    aacountfilter = 1
 if maxp:
     maxp = float(maxp)
 else:
-    maxp = 0.5
+    maxp = 0.05
 maxq = form.getvalue("maxq")
 if maxq:
     maxq = float(maxq)
 else:
-    maxq = 0.8
+    maxq = 0.2
 
 def printHtmlHeaders():
     print "Content-Type: text/html"
@@ -273,7 +281,7 @@ def displayResults(results, maxq, maxp):
             <th>P-VALUE</th>
             <th>Q-VALUE</th>'''
     pvalues = [float(x[-1]) for x in results]# if float(x[-1]) < maxp]
-    qvalues = multipletests(pvalues, alpha=0.05, method='sidak')
+    qvalues = multipletests(pvalues, alpha=0.05, method='fdr_bh')
     #print qvalues
     for i in xrange(len(qvalues[1])):
         results[i].append(str(qvalues[1][i]))
