@@ -213,7 +213,7 @@ def analyzeHLAs(patients, uniquehlas, hlacountfilter=None, aacountfilter=1):
                         results[uhla][pos]['tt'][aa] = 1
                     else:
                         results[uhla][pos]['tt'][aa] += 1
-        if (hlacountfilter) and (hlacount < hlacountfilter):
+        if ((hlacountfilter) and (hlacount < hlacountfilter)) or (hlacount == len(patients)):
             #print 'There are only {} patient/s with hla {} which is < {}, removing.<br>'.format(hlacount,uhla,countfilter)
             results.pop(uhla, None)
     return results
@@ -223,7 +223,11 @@ def getResults(analysis):
     for uhla in analysis:
         for pos in analysis[uhla]:
             aas = set([x for x in analysis[uhla][pos]['tt']]+[x for x in analysis[uhla][pos]['ft']])
-            if (len(aas) == 1):
+            copy = list(aas)
+            for aa in copy:
+                if (aa[0] == '['):
+                    copy.remove(aa)
+            if (len(aas) == 1) or (len(copy) == 1):
                 continue
             for aa in aas:
                 if (aa[0] == '['):
@@ -256,7 +260,6 @@ def getResults(analysis):
                     ff -= mixft[aa]
                 n = tt+tf+ft+ff
                 OR, pval = stats.fisher_exact([[tt,tf],[ft,ff]])
-
                 if (OR < 1):
                     direction = 'non-adapted'
                 elif (OR == 'indeterminate') or (OR > 1):
@@ -305,4 +308,7 @@ if (runHAPLOID is not None):
     #print uniquehlas
     results = analyzeHLAs(patients, uniquehlas, hlacountfilter, aacountfilter)
     results = getResults(results)
+    results = sorted(results, key = lambda x: (x[2]))
+    results = sorted(results, key = lambda x: (x[3]), reverse=True)
+    results = sorted(results, key = lambda x: (int(x[1]), x[0]))
     displayResults(results,maxq,maxp)

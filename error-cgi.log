@@ -194,3 +194,17 @@ Traceback (most recent call last):
   File "HAPLOID.py", line 23, in <module>
     maxp = float(form.getvalue("maxp"))
 TypeError: float() argument must be a string or a number
+Traceback (most recent call last):
+  File "HAPLOID.py", line 313, in <module>
+    displayResults(results,maxq,maxp)
+  File "HAPLOID.py", line 289, in displayResults
+    qvalues = multipletests(pvalues, alpha=0.05, method='fdr_bh')
+  File "/home4/dmacmill/anaconda/lib/python2.7/site-packages/statsmodels/stats/multitest.py", line 132, in multipletests
+    alphacSidak = 1 - np.power((1. - alphaf), 1./ntests)
+ZeroDivisionError: float division by zero
+Traceback (most recent call last):
+  File "HAPLOID.py", line 311, in <module>
+    results = sorted(results, key = lambda x: (int(x[1]), x[0], -x[3], x[2]))
+  File "HAPLOID.py", line 311, in <lambda>
+    results = sorted(results, key = lambda x: (int(x[1]), x[0], -x[3], x[2]))
+TypeError: bad operand type for unary -: 'str'
