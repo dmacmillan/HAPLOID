@@ -447,3 +447,12 @@ input.large {
     margin-right: -10px;
     background-color: #ead9f2;
     padding: 5px; }
+
+#datafilelabel {
+  display: inline-block;
+  padding: 5px;
+  background: blue; }
+
+#upload-box h1 {
+  margin: 0;
+  margin-bottom: 5px; }

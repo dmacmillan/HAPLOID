@@ -20,7 +20,9 @@ patients = form.getvalue("sequencesname")
 runHAPLOID = form.getvalue("runHAPLOID")
 hlacountfilter = form.getvalue("hlacountfilter")
 aacountfilter = form.getvalue("aacountfilter")
+datafile = form.getvalue("datafile")
 maxp = form.getvalue("maxp")
+
 if hlacountfilter:
     hlacountfilter = int(hlacountfilter)
 else:
@@ -139,6 +141,10 @@ def translateDNA(sequence, resolvecharacter="X", flag=3):
 
 def parse(inputText):
     val = [x.split('\t') for x in inputText.splitlines()]
+    return val
+    
+def parseCSV(inputText):
+    val = [x.split(',') for x in inputText.splitlines()]
     return val
 
 def parseHLA(hla, res=4):
@@ -299,13 +305,15 @@ def displayResults(results, maxq, maxp):
         else:
             print '<tr>{}</tr>'.format('<td>'+'</td><td>'.join(result)+'</td>')
     print '</table>'
-
+    
 if (runHAPLOID is not None):
     printHtmlHeaders()
-    patients = getSeqs(parse(patients))
-    #print patients
+    if (datafile is not None) and (datafile is not ''):
+        patients = parseCSV(datafile)
+    else:
+        patients = parse(patients)
+    patients = getSeqs(patients)
     uniquehlas = buildUniqueHlas(patients)
-    #print uniquehlas
     results = analyzeHLAs(patients, uniquehlas, hlacountfilter, aacountfilter)
     results = getResults(results)
     results = sorted(results, key = lambda x: (x[2]))

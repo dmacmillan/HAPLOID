@@ -22,10 +22,17 @@
                 sequence of the patient's HIV gene of interest.
 			</div>
 			<div class="spacer"></div>
-			<form action="../cgi-bin/HAPLOID.py" method="post" id="mainform">
+			<form enctype="multipart/form-data" action="../cgi-bin/HAPLOID.py" method="post" id="mainform">
                 <div class="grid">
                     <div class="row">
-                        <textarea id="sequences" name="sequencesname" autofocus required placeholder="Input HLA types and polymorphisms"></textarea>
+                        <textarea id="sequences" name="sequencesname" autofocus placeholder="Input HLA types and polymorphisms"></textarea>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="row">
+                        <div id="upload-box">
+                            <h1>Upload File</h1>
+                            <input type="file" name="datafile" id="datafile">
+                        </div>
                     </div>
                     <div class="spacer"></div>
                     <div class="row">
@@ -33,28 +40,28 @@
                             <div class="option">
                                 <h2>HLA count filter</h2>
                                 <input id="hlacountfilter" class="large" type="number" name="hlacountfilter" maxlength="2" min="1" value="1">
-                                <p><i>Exclude HLAs from analysis if number of patients with said HLAs is less than the number specified in this box. Default = 1, minimum = 1, required.<i></p>
+                                <p><i>Exclude HLAs from analysis if number of patients with said HLAs is less than the number specified in this box. Default = 1, minimum = 1, required.</i></p>
                             </div>
                         </div>
                         <div class="col-1-4">
                             <div class="option">
                                 <h2>AA count filter</h2>
                                 <input id="aacountfilter" class="large" type="number" name="aacountfilter" maxlength="2" min="1" value="1">
-                                <p><i>Exclude amino acids (AA)s from analysis if number of patients with said AA at any given position is less than the number specified in this box. Default = 1, minimum = 1, required.<i></p>
+                                <p><i>Exclude amino acids (AA)s from analysis if number of patients with said AA at any given position is less than the number specified in this box. Default = 1, minimum = 1, required.</i></p>
                             </div>
                         </div>
                         <div class="col-1-4">
                             <div class="option">
                                 <h2>p-value threshold</h2>
                                 <input id="maxp" class="large" type="number" name="maxp" min=0 step="0.01" value=0.05>
-                                <p><i>Exclude p-values larger than the value specified in this box. Default = 0.05.<i></p>
+                                <p><i>Exclude p-values larger than the value specified in this box. Default = 0.05.</i></p>
                             </div>
                         </div>
                         <div class="col-1-4">
                             <div class="option">
                                 <h2>q-value threshold</h2>
                                 <input id="maxq" class="large" type="number" name="maxq" min=0 step="0.01" value=0.2>
-                                <p><i>Exclude q-values larger than the value specified in this box. Default = 0.2.<i></p>
+                                <p><i>Exclude q-values larger than the value specified in this box. Default = 0.2.</i></p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +69,7 @@
 			<div class="spacer"></div>
 			<button type="button" id="load_sample" class="btn-blank btn-grey round-sm">Load Sample</button>
 			<button type="button" id="clear" class="btn-blank btn-red round-sm">Clear All</button>
-			<button name="runHAPLOID" value="submit" class="btn-blank btn-green round-sm" type="submit" form="mainform">Submit</button>
+			<button name="runHAPLOID" value="submit" class="btn-blank btn-green round-sm" type="submit" form="mainform">Run in browser</button>
             </form>
 		</div>
 	</body>
