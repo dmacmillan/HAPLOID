@@ -1,0 +1,10 @@
+README.md
+setup.py
+haploid/__init__.py
+haploid/main.py
+haploid.egg-info/PKG-INFO
+haploid.egg-info/SOURCES.txt
+haploid.egg-info/dependency_links.txt
+haploid.egg-info/entry_points.txt
+haploid.egg-info/requires.txt
+haploid.egg-info/top_level.txt
