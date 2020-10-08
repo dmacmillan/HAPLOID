@@ -12,10 +12,6 @@ def test_main():
     args = haploid.main.parse_args([str(data)])
     results = haploid.main.run(args)
     haploid.main.write_results(results, args.output_file_path)
-    # csvfile = io.StringIO()
-    # writer = csv.writer(csvfile)
-    # for row in results:
-    #     writer.writerow(row)
 
 
 def test_translate_dna():

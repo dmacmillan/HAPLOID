@@ -5,6 +5,7 @@ import os
 
 from pathlib import Path
 from scipy import stats
+from statsmodels.sandbox.stats.multicomp import multipletests
 
 if __name__ == '__main__':
     main()
@@ -325,7 +326,22 @@ def getResults(analysis):
                     str(OR),
                     str(pval)
                 ])
+    pvalues = [float(x[-1]) for x in results]
+    qvalues = multipletests(pvalues, alpha=0.05, method='fdr_bh')
+    for i in range(len(qvalues[1])):
+        results[i].append(qvalues[1][i])
     return results
+
+
+def filter_results(results, max_pvalue=0.05, max_qvalue=0.02):
+    filtered = []
+    for result in results:
+        if (float(result[-2]) > max_pvalue):
+            continue
+        elif (float(result[-1]) > max_qvalue):
+            continue
+        filtered.append(result)
+    return filtered
 
 
 def run(args):
@@ -337,6 +353,7 @@ def run(args):
     results = analyzeHLAs(patients, unique_hlas, args.hla_count_filter,
                           args.amino_acid_count_filter)
     results = getResults(results)
+    results = filter_results(results, args.max_pvalue, args.max_qvalue)
     results = sorted(results, key=lambda x: (x[2]))
     results = sorted(results, key=lambda x: (x[3]), reverse=True)
     results = sorted(results, key=lambda x: (int(x[1]), x[0]))
